@@ -1,0 +1,17 @@
+[package]
+name = "netplan-types"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tobias de Bruijn <t.debruijn@array21.dev>"]
+readme = "README.md"
+categories = ["config", "data-structures"]
+keywords = ["netplan", "configuration", "network"]
+license = "MIT OR Apache-2.0"
+
+[dependencies.derive_builder]
+version = "0.11"
+optional = true
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
