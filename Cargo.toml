@@ -7,6 +7,8 @@ readme = "README.md"
 categories = ["config", "data-structures"]
 keywords = ["netplan", "configuration", "network"]
 license = "MIT OR Apache-2.0"
+repository = "https://github.com/TobiasDeBruijn/netplan-types"
+description = "Netplan configuration types as Rust structs and enums"
 
 [dependencies.derive_builder]
 version = "0.11"
