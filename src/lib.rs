@@ -796,7 +796,7 @@ pub enum EmbeddedSwitchMode {
     Legacy,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[serde(rename_all = "kebab-case")]
 pub struct WifiConfig {
@@ -811,6 +811,12 @@ pub struct WifiConfig {
     /// rfkill_release or tcp (NetworkManager only). Or the exclusive
     /// default flag (the default).
     pub wakeonwlan: Option<Vec<WakeOnWLan>>,
+    /// Common properties for physical device types
+    #[serde(flatten)]
+    pub common_physical: Option<CommonPropertiesPhysicalDeviceType>,
+    /// Common properties for all devices
+    #[serde(flatten)]
+    pub common_all: Option<CommonPropertiesAllDevices>,
 }
 
 /// This enables WakeOnWLan on supported devices. Not all drivers support all
