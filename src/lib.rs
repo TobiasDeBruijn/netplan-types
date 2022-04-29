@@ -40,12 +40,19 @@ pub struct NetplanConfig {
 #[cfg_attr(feature = "repr-c", repr(C))]
 pub struct NetworkConfig {
     pub version: u8,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub renderer: Option<Renderer>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub ethernets: Option<HashMap<String, EthernetConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub wifis: Option<HashMap<String, WifiConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub bonds: Option<HashMap<String, BondConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub bridges: Option<HashMap<String, BridgeConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub vlans: Option<HashMap<String, VlanConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub tunnels: Option<HashMap<String, TunnelConfig>>,
 }
 
