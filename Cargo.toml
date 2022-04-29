@@ -1,6 +1,6 @@
 [package]
 name = "netplan-types"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Tobias de Bruijn <t.debruijn@array21.dev>"]
 readme = "README.md"
@@ -10,6 +10,11 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/TobiasDeBruijn/netplan-types"
 description = "Netplan configuration types as Rust structs and enums"
 
+[features]
+default = ["serde"]
+builder = ["derive_builder"]
+repr-c = []
+
 [dependencies.derive_builder]
 version = "0.11"
 optional = true
@@ -17,3 +22,4 @@ optional = true
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
+optional = true
