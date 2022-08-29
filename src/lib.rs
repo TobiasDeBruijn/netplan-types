@@ -592,8 +592,10 @@ pub enum ActivationMode {
 #[cfg_attr(feature = "repr-c", repr(C))]
 pub struct NameserverConfig {
     /// A list of IPv4 or IPv6 addresses
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub addresses: Option<Vec<String>>,
     /// A list of search domains.
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub search: Option<Vec<String>>,
 }
 
