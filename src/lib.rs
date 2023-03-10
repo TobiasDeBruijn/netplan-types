@@ -1674,3 +1674,22 @@ pub enum TunnelMode {
     #[cfg_attr(feature = "serde", serde(rename = "isatap"))]
     Isatap,
 }
+
+
+#[test]
+fn parse_common_all() {
+    let input = r#"network:
+  version: 2
+  ethernets:
+    nics:
+      match:
+        name: ens*
+      dhcp4: yes
+      dhcp6: no
+      optional: true
+"#;
+    let netplan_config: NetplanConfig = serde_yaml::from_str(&input).unwrap();
+    let ethernets = netplan_config.network.ethernets.unwrap();
+    let ethernet = ethernets.values().next().unwrap();
+    assert_ne!(ethernet.common_all, None);
+}
