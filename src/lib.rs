@@ -16,10 +16,13 @@
 //! - `derive_builder` Enable the derive_builder crate for an automatically generated builder pattern API
 //! - `repr-c` Add the `repr(C)` attribute to every type
 
+#[cfg(feature = "serde")]
+mod bool;
+
 use std::collections::HashMap;
 
 #[cfg(feature = "serde")]
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "derive_builder")]
 use derive_builder::Builder;
@@ -30,7 +33,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 #[cfg_attr(feature = "repr-c", repr(C))]
 pub struct NetplanConfig {
-    pub network: NetworkConfig
+    pub network: NetworkConfig,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
@@ -104,44 +107,89 @@ pub struct CommonPropertiesPhysicalDeviceType {
     /// only and rendered by networkd, due to interactions with device
     /// renaming in udev. Match devices by MAC when setting wake on LAN.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub wakeonlan: Option<bool>,
     /// (networkd backend only) Whether to emit LLDP packets. Off by default.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub emit_lldp: Option<bool>,
     /// (networkd backend only) If set to true, the hardware offload for
     /// checksumming of ingress network packets is enabled. When unset,
     /// the kernel’s default will be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub receive_checksum_offload: Option<bool>,
     /// (networkd backend only) If set to true, the hardware offload for
     /// checksumming of egress network packets is enabled. When unset,
     /// the kernel’s default will be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub transmit_checksum_offload: Option<bool>,
     /// (networkd backend only) If set to true, the TCP Segmentation
     /// Offload (TSO) is enabled. When unset, the kernel’s default will
     /// be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub tcp_segmentation_offload: Option<bool>,
     /// (networkd backend only) If set to true, the TCP6 Segmentation
     /// Offload (tx-tcp6-segmentation) is enabled. When unset, the
     /// kernel’s default will be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub tcp6_segmentation_offload: Option<bool>,
     /// (networkd backend only) If set to true, the Generic Segmentation
     /// Offload (GSO) is enabled. When unset, the kernel’s default will
     /// be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub generic_segmentation_offload: Option<bool>,
     /// (networkd backend only) If set to true, the Generic Receive
     /// Offload (GRO) is enabled. When unset, the kernel’s default will
     /// be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub generic_receive_offload: Option<bool>,
     /// (networkd backend only) If set to true, the Generic Receive
     /// Offload (GRO) is enabled. When unset, the kernel’s default will
     /// be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub large_receive_offload: Option<bool>,
     /// This provides additional configuration for the network device for openvswitch.
     /// If openvswitch is not available on the system, netplan treats the presence of
@@ -175,6 +223,11 @@ pub struct CommonPropertiesAllDevices {
     pub renderer: Option<Renderer>,
     /// Enable DHCP for IPv4. Off by default.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub dhcp4: Option<bool>,
     /// Enable DHCP for IPv6. Off by default. This covers both stateless DHCP -
     /// where the DHCP server supplies information like DNS nameservers but not the
@@ -190,6 +243,11 @@ pub struct CommonPropertiesAllDevices {
     /// Note that rdnssd(8) is required to use RDNSS with networkd. No extra
     /// software is required for NetworkManager.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub dhcp6: Option<bool>,
     /// Set the IPv6 MTU (only supported with networkd backend). Note
     /// that needing to set this is an unusual requirement.
@@ -199,6 +257,11 @@ pub struct CommonPropertiesAllDevices {
     /// prefer temporary addresses. Defaults to false - no privacy extensions. There
     /// is currently no way to have a private address but prefer the public address.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub ipv6_privacy: Option<bool>,
     /// Configure the link-local addresses to bring up. Valid options are ‘ipv4’
     /// and ‘ipv6’, which respectively allow enabling IPv4 and IPv6 link local
@@ -221,6 +284,11 @@ pub struct CommonPropertiesAllDevices {
     /// (networkd backend only) Allow the specified interface to be configured even
     /// if it has no carrier.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub ignore_carrier: Option<bool>,
     /// Designate the connection as “critical to the system”, meaning that special
     /// care will be taken by to not release the assigned IP when the daemon is
@@ -358,28 +426,53 @@ pub struct DhcpOverrides {
     /// configured ones. Currently only has an effect on the networkd
     /// backend.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub use_dns: Option<bool>,
     /// Default: true. When true, the NTP servers received from the
     /// DHCP server will be used by systemd-timesyncd and take precedence
     /// over any statically configured ones. Currently only has an effect on
     /// the networkd backend.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub use_ntp: Option<bool>,
     /// Default: true. When true, the machine’s hostname will be sent
     /// to the DHCP server. Currently only has an effect on the networkd
     /// backend.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub send_hostname: Option<bool>,
     /// Default: true. When true, the hostname received from the DHCP
     /// server will be set as the transient hostname of the system. Currently
     /// only has an effect on the networkd backend.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub use_hostname: Option<bool>,
     /// Default: true. When true, the MTU received from the DHCP
     /// server will be set as the MTU of the network interface. When false,
     /// the MTU advertised by the DHCP server will be ignored. Currently only
     /// has an effect on the networkd backend.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub use_mtu: Option<bool>,
     /// Use this value for the hostname which is sent to the DHCP server,
     /// instead of machine’s hostname. Currently only has an effect on the
@@ -394,6 +487,11 @@ pub struct DhcpOverrides {
     /// default gateway for interfaces configured via DHCP. Available for
     /// both the networkd and NetworkManager backends.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub use_routes: Option<bool>,
     /// Use this value for default metric for automatically-added routes.
     /// Use this to prioritize routes for devices by setting a lower metric
@@ -409,7 +507,7 @@ pub struct DhcpOverrides {
     /// the effect of the Domains= setting when the argument is prefixed with
     /// “~”.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub use_domains: Option<String>
+    pub use_domains: Option<String>,
 }
 
 /// The routes block defines standard static routes for an interface.
@@ -441,6 +539,11 @@ pub struct RoutingConfig {
     /// to the interface.
     /// (NetworkManager: as of v1.12.0 for IPv4 and v1.18.0 for IPv6)
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub on_link: Option<bool>,
     /// The relative priority of the route. Must be a positive integer value.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -474,7 +577,7 @@ pub struct RoutingConfig {
     /// The receive window to be advertised for the route, represented by
     /// number of segments. Must be a positive integer value.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub advertised_receive_window: Option<u16>
+    pub advertised_receive_window: Option<u16>,
 }
 
 /// The type of route. Valid options are “unicast” (default), “anycast”,
@@ -548,7 +651,7 @@ pub struct RoutingPolicy {
     /// Match this policy rule based on the type of service number applied to
     /// the traffic.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub type_of_service: Option<String>
+    pub type_of_service: Option<String>,
 }
 
 /// Takes a boolean, or the special value “route”. When true, the domain
@@ -564,7 +667,7 @@ pub struct RoutingPolicy {
 #[cfg_attr(feature = "serde", serde(rename = "lowercase"))]
 #[cfg_attr(feature = "repr-c", repr(C))]
 pub enum UseDomains {
-    Boolean(bool),
+    Boolean(#[serde(deserialize_with = "bool::string_or_bool")] bool),
     Route,
 }
 
@@ -606,7 +709,7 @@ pub enum Ipv6AddressGeneration {
     #[cfg_attr(feature = "serde", serde(rename = "eui64"))]
     Eui64,
     #[cfg_attr(feature = "serde", serde(rename = "stable-privacy"))]
-    StablePrivacy
+    StablePrivacy,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -623,7 +726,7 @@ pub enum AddressMapping {
         /// An IP address label, equivalent to the ip address label
         /// command. Currently supported on the networkd backend only.
         label: String,
-    }
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -694,7 +797,7 @@ pub enum AuthMethod {
     #[cfg_attr(feature = "serde", serde(rename = "peap"))]
     Peap,
     #[cfg_attr(feature = "serde", serde(rename = "ttls"))]
-    Ttls
+    Ttls,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -709,7 +812,7 @@ pub enum KeyManagmentMode {
     Eap,
     /// 802.1x
     #[cfg_attr(feature = "serde", serde(rename = "802.1x"))]
-    EightZeroTwoDotOneX
+    EightZeroTwoDotOneX,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
@@ -768,6 +871,11 @@ pub struct ModemConfig {
     /// the carrier against the Mobile Broadband Provider database. This may not
     /// work for all carriers.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub auto_config: Option<bool>,
     /// Specify the device ID (as given by the WWAN management service) of the
     /// modem to match. This can be found using mmcli.
@@ -843,6 +951,11 @@ pub struct OpenVSwitchConfig {
     pub fail_mode: Option<FailMode>,
     /// Valid for bridge interfaces. False by default.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub mcast_snooping: Option<bool>,
     /// Valid for bridge interfaces or the network section. List of protocols to be used when
     /// negotiating a connection with the controller. Accepts OpenFlow10, OpenFlow11,
@@ -851,6 +964,11 @@ pub struct OpenVSwitchConfig {
     pub protocols: Option<Vec<OpenFlowProtocol>>,
     /// Valid for bridge interfaces. False by default.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub rtsp: Option<bool>,
     /// Valid for bridge interfaces. Specify an external OpenFlow controller.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -1073,6 +1191,11 @@ pub struct AccessPointConfig {
     /// to false (the default) when connecting to publicly broadcast
     /// SSIDs.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub hidden: Option<bool>,
 }
 
@@ -1176,6 +1299,11 @@ pub struct BondParameters {
     /// option to true. The default value is false, and is the desirable
     /// behavior in most situations.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub all_slaves_active: Option<bool>,
     /// Set the interval value for how frequently ARP link monitoring should
     /// happen. The default value is 0, which disables ARP monitoring.
@@ -1282,7 +1410,7 @@ pub enum PrimaryReselectPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "better"))]
     Better,
     #[cfg_attr(feature = "serde", serde(rename = "failure"))]
-    Failure
+    Failure,
 }
 
 /// Set whether to set all slaves to the same MAC address when adding
@@ -1297,7 +1425,7 @@ pub enum FailOverMacPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "activv"))]
     Active,
     #[cfg_attr(feature = "serde", serde(rename = "follow"))]
-    Follow
+    Follow,
 }
 
 /// Specify whether to use any ARP IP target being up as sufficient for
@@ -1311,7 +1439,7 @@ pub enum ArpAllTargets {
     #[cfg_attr(feature = "serde", serde(rename = "any"))]
     Any,
     #[cfg_attr(feature = "serde", serde(rename = "all"))]
-    All
+    All,
 }
 
 /// Configure how ARP replies are to be validated when using ARP link
@@ -1328,7 +1456,7 @@ pub enum ArpValidate {
     #[cfg_attr(feature = "serde", serde(rename = "backup"))]
     Backup,
     #[cfg_attr(feature = "serde", serde(rename = "all"))]
-    All
+    All,
 }
 
 /// Set the aggregation selection mode. Possible values are stable,
@@ -1343,7 +1471,7 @@ pub enum AdSelect {
     #[cfg_attr(feature = "serde", serde(rename = "bandwidth"))]
     Bandwidth,
     #[cfg_attr(feature = "serde", serde(rename = "count"))]
-    Count
+    Count,
 }
 
 /// Specifies the transmit hash policy for the selection of slaves. This
@@ -1361,7 +1489,7 @@ pub enum TransmitHashPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "encap2+3"))]
     Encap2Plus3,
     #[cfg_attr(feature = "serde", serde(rename = "encap3+4"))]
-    Encap3Plus4
+    Encap3Plus4,
 }
 
 /// Set the rate at which LACPDUs are transmitted. This is only useful
@@ -1486,6 +1614,11 @@ pub struct BridgeParameters {
     /// default value is “true”, which means that Spanning Tree should be
     /// used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(deserialize_with = "bool::string_or_bool_option")
+    )]
     pub stp: Option<bool>,
 }
 
@@ -1634,10 +1767,10 @@ pub enum TunnelKey {
         /// The output key for the tunnel
         output: Option<String>,
         /// A base64-encoded private key required for WireGuard tunnels. When the
-        // systemd-networkd backend (v242+) is used, this can also be an
-        // absolute path to a file containing the private key.
+        /// systemd-networkd backend (v242+) is used, this can also be an
+        /// absolute path to a file containing the private key.
         private: Option<String>,
-    }
+    },
 }
 
 /// Defines the tunnel mode. Valid options are sit, gre, ip6gre,
@@ -1673,4 +1806,33 @@ pub enum TunnelMode {
     Ip6gretap,
     #[cfg_attr(feature = "serde", serde(rename = "isatap"))]
     Isatap,
+}
+
+#[cfg(test)]
+mod test {
+    use crate::NetplanConfig;
+
+    #[test]
+    fn yaml_booleans() {
+        let input = r#"
+            network:
+              version: 2
+              ethernets:
+                nics:
+                  match:
+                    name: ens*
+                  dhcp4: on
+                  dhcp6: N
+            "#;
+
+        let netplan_config: NetplanConfig = serde_yaml::from_str(&input).unwrap();
+        let ethernets = netplan_config.network.ethernets.unwrap();
+        let ethernet = ethernets.values().next().unwrap();
+
+        assert!(ethernet.common_all.is_some());
+
+        let common = ethernet.common_all.as_ref().unwrap();
+
+        assert_eq!(common.dhcp4, Some(true));
+    }
 }
