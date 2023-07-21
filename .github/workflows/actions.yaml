@@ -1,0 +1,79 @@
+name: 'Test & fmt'
+
+on:
+  push:
+
+jobs:
+  check-lints:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+        components: clippy
+    - name: clippy
+      uses: actions-rs/cargo@v1
+      with:
+        command: clippy
+
+  check-fmt:
+    runs-on: ubuntu-latest
+    after:
+    - check-lints
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+        components: rustfmt
+    - name: rustfmt
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt
+        args: --check
+
+  cargo-check:
+    runs-on: ubuntu-latest
+    after:
+    - check-lints
+    - check-fmt
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+    - name: Cargo check
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+
+  cargo-test:
+    runs-on: ubuntu-latest
+    after:
+    - cargo-check
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+    - name: Cargo test
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
