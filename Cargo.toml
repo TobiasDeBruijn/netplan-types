@@ -1,6 +1,6 @@
 [package]
 name = "netplan-types"
-version = "0.3.4"
+version = "0.4.0"
 edition = "2021"
 authors = ["Tobias de Bruijn <t.debruijn@array21.dev>"]
 readme = "README.md"
