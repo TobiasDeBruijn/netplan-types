@@ -69,7 +69,6 @@ impl<'de> Visitor<'de> for StringOrBoolOption {
     where
         E: Error,
     {
-        println!("Visiting none");
         Ok(None)
     }
 
