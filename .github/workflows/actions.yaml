@@ -23,8 +23,6 @@ jobs:
 
   check-fmt:
     runs-on: ubuntu-latest
-    after:
-    - check-lints
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -43,9 +41,6 @@ jobs:
 
   cargo-check:
     runs-on: ubuntu-latest
-    after:
-    - check-lints
-    - check-fmt
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -62,8 +57,6 @@ jobs:
 
   cargo-test:
     runs-on: ubuntu-latest
-    after:
-    - cargo-check
     steps:
     - name: checkout
       uses: actions/checkout@v3
