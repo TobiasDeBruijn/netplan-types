@@ -10,6 +10,7 @@ use crate::{CommonPropertiesAllDevices, CommonPropertiesPhysicalDeviceType};
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct EthernetConfig {
     /// (SR-IOV devices only) The link property declares the device as a
     /// Virtual Function of the selected Physical Function device, as identified
@@ -48,6 +49,7 @@ pub struct EthernetConfig {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum EmbeddedSwitchMode {
     Switchdev,
     Legacy,

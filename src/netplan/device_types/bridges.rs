@@ -10,6 +10,7 @@ use crate::CommonPropertiesAllDevices;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct BridgeConfig {
     /// All devices matching this ID list will be added to the bridge. This may
     /// be an empty list, in which case the bridge will be brought online with
@@ -38,6 +39,7 @@ pub struct BridgeConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct BridgeParameters {
     /// Set the period of time to keep a MAC address in the forwarding
     /// database after a packet is received. This maps to the AgeingTimeSec=

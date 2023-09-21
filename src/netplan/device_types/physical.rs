@@ -9,6 +9,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct CommonPropertiesPhysicalDeviceType {
     /// This selects a subset of available physical devices by various hardware
     /// properties. The following configuration will then apply to all matching
@@ -140,6 +141,7 @@ pub struct CommonPropertiesPhysicalDeviceType {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct OpenVSwitchConfig {
     /// Passed-through directly to OpenVSwitch
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -194,6 +196,7 @@ pub struct OpenVSwitchConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct SslConfig {
     /// Path to a file containing the CA certificate to be used.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -211,6 +214,7 @@ pub struct SslConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct ControllerConfig {
     /// Set the list of addresses to use for the controller targets. The
     /// syntax of these addresses is as defined in ovs-vsctl(8). Example:
@@ -226,6 +230,7 @@ pub struct ControllerConfig {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum ConnectionMode {
     InBand,
     OutOfBand,
@@ -233,6 +238,7 @@ pub enum ConnectionMode {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum OpenFlowProtocol {
     OpenFlow10,
     OpenFlow11,
@@ -245,6 +251,7 @@ pub enum OpenFlowProtocol {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum Lacp {
     Active,
     Passive,
@@ -253,6 +260,7 @@ pub enum Lacp {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum FailMode {
     Secure,
     Standalone,
@@ -265,6 +273,7 @@ pub enum FailMode {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct MatchConfig {
     /// Current interface name. Globs are supported, and the primary use case
     /// for matching on names, as selecting one fixed name can be more easily

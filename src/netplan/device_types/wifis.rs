@@ -11,6 +11,7 @@ use std::collections::HashMap;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct WifiConfig {
     /// This provides pre-configured connections to NetworkManager. Note that
     /// users can of course select other access points/SSIDs. The keys of the
@@ -39,6 +40,7 @@ pub struct WifiConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct AccessPointConfig {
     /// Enable WPA2 authentication and set the passphrase for it. If neither
     /// this nor an auth block are given, the network is assumed to be
@@ -85,6 +87,7 @@ pub struct AccessPointConfig {
 /// network if unset (the default).
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum WirelessBand {
     /// 2.4Ghz
     #[cfg_attr(feature = "serde", serde(rename = "2.4GHz"))]
@@ -100,6 +103,7 @@ pub enum WirelessBand {
 /// ap is only supported with NetworkManager.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum AccessPointMode {
     #[cfg_attr(feature = "serde", serde(rename = "infrastructure"))]
     Infrastructure,
@@ -116,6 +120,7 @@ pub enum AccessPointMode {
 /// default flag (the default).
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum WakeOnWLan {
     #[cfg_attr(feature = "serde", serde(rename = "any"))]
     Any,

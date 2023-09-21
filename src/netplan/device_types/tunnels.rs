@@ -16,6 +16,7 @@ use crate::CommonPropertiesAllDevices;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct TunnelConfig {
     /// Defines the tunnel mode. Valid options are sit, gre, ip6gre,
     /// ipip, ipip6, ip6ip6, vti, vti6 and wireguard.
@@ -67,6 +68,7 @@ pub struct TunnelConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct WireGuardPeer {
     /// Remote endpoint IPv4/IPv6 address or a hostname, followed by a colon
     /// and a port number.
@@ -96,6 +98,7 @@ pub struct WireGuardPeer {
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct WireGuardPeerKey {
     /// A base64-encoded public key, required for WireGuard peers.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -120,6 +123,7 @@ pub struct WireGuardPeerKey {
 /// mapping, where you can further specify input/output/private.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum TunnelKey {
     Simple(String),
     Complex {
@@ -141,6 +145,7 @@ pub enum TunnelKey {
 /// In addition, the NetworkManager backend supports isatap tunnels.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum TunnelMode {
     #[cfg_attr(feature = "serde", serde(rename = "sit"))]
     Sit,

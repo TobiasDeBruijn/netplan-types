@@ -10,6 +10,7 @@ use crate::CommonPropertiesAllDevices;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct VlanConfig {
     /// VLAN ID, a number between 0 and 4094.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]

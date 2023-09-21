@@ -14,6 +14,7 @@ use crate::CommonPropertiesAllDevices;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct DummyDeviceConfig {
     /// Common properties for all devices
     #[cfg_attr(feature = "serde", serde(flatten))]

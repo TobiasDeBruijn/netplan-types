@@ -23,6 +23,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct DhcpOverrides {
     /// Default: true. When true, the DNS servers received from the
     /// DHCP server will be used and take precedence over any statically
@@ -115,6 +116,7 @@ pub struct DhcpOverrides {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum Ipv6AddressGeneration {
     #[cfg_attr(feature = "serde", serde(rename = "eui64"))]
     Eui64,
@@ -125,6 +127,7 @@ pub enum Ipv6AddressGeneration {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(untagged))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum AddressMapping {
     Simple(String),
     Complex {
@@ -140,6 +143,7 @@ pub enum AddressMapping {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum PreferredLifetime {
     #[cfg_attr(feature = "serde", serde(rename = "forever"))]
     Forever,
