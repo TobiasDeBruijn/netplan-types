@@ -220,6 +220,8 @@ pub enum TransmitHashPolicy {
     Layer2,
     #[cfg_attr(feature = "serde", serde(rename = "layer3+4"))]
     Layer3Plus4,
+    #[cfg_attr(feature = "serde", serde(rename = "layer2+3"))]
+    Layer2Plus3,
     #[cfg_attr(feature = "serde", serde(rename = "encap2+3"))]
     Encap2Plus3,
     #[cfg_attr(feature = "serde", serde(rename = "encap3+4"))]
