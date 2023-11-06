@@ -14,6 +14,7 @@
 //! ## Features
 //! - `serde`: \[Default\] Add serde support
 //! - `derive_builder` Enable the derive_builder crate for an automatically generated builder pattern API
+//! - `schemars`: Enable the schemars crate for generating a JSON schema from the structs
 
 #[cfg(feature = "serde")]
 mod bool;
