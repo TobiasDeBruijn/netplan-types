@@ -1,5 +1,6 @@
 
-
+## 0.4.1 (2023-11-14)
+- Add `schemars` support
 
 ## 0.4.0 (2023-07-21)
 - Removed repr C feature

@@ -12,8 +12,9 @@ Please note that I do not check the docs often for updates, if anything is missi
 please open an issue or a pull-request so the issue can be addressed.
 
 ## Features
-- `serde`: [Default] Add serde support
+- `serde` [Default] Add serde support
 - `derive_builder` Enable the derive_builder crate for an automatically generated builder pattern API
+- `schemars` Allow generation of a JSON schema
 
 ## License
 This crate is licensed under the MIT license, or the Apache 2.0 license, at your discretion.
