@@ -17,6 +17,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct RoutingConfig {
     /// Set a source IP address for traffic going through the route.
     /// (NetworkManager: as of v1.8.0)
@@ -79,6 +80,7 @@ pub struct RoutingConfig {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum RouteType {
     Unicast,
     Anycast,
@@ -98,6 +100,7 @@ pub enum RouteType {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum RouteScope {
     Global,
     Link,
@@ -114,6 +117,7 @@ pub enum RouteScope {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct RoutingPolicy {
     /// Set a source IP address to match traffic for this policy rule.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -148,6 +152,7 @@ pub struct RoutingPolicy {
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct NameserverConfig {
     /// A list of IPv4 or IPv6 addresses
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]

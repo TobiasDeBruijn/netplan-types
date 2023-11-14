@@ -10,6 +10,7 @@ use crate::CommonPropertiesAllDevices;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct BondConfig {
     /// All devices matching this ID list will be added to the bond.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -31,6 +32,7 @@ pub struct BondConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct BondParameters {
     /// Set the bonding mode used for the interfaces. The default is
     /// balance-rr (round robin). Possible values are balance-rr,
@@ -179,6 +181,7 @@ pub struct BondParameters {
 /// balance-tcp and balance-slb are supported.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum BondMode {
     #[cfg_attr(feature = "serde", serde(rename = "balance-rr"))]
     BalanceRr,
@@ -202,6 +205,7 @@ pub enum BondMode {
 /// and fast (every second).
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum LacpRate {
     #[cfg_attr(feature = "serde", serde(rename = "slow"))]
     Slow,
@@ -215,6 +219,7 @@ pub enum LacpRate {
 /// encap2+3, and encap3+4.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum TransmitHashPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "layer2"))]
     Layer2,
@@ -233,6 +238,7 @@ pub enum TransmitHashPolicy {
 /// mode.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum AdSelect {
     #[cfg_attr(feature = "serde", serde(rename = "stable"))]
     Stable,
@@ -247,6 +253,7 @@ pub enum AdSelect {
 /// and all.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum ArpValidate {
     #[cfg_attr(feature = "serde", serde(rename = "none"))]
     None,
@@ -264,6 +271,7 @@ pub enum ArpValidate {
 /// enabled. Possible values are any and all.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum ArpAllTargets {
     #[cfg_attr(feature = "serde", serde(rename = "any"))]
     Any,
@@ -276,6 +284,7 @@ pub enum ArpAllTargets {
 /// The possible values are none, active, and follow.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum FailOverMacPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "none"))]
     None,
@@ -291,6 +300,7 @@ pub enum FailOverMacPolicy {
 /// possible values are always, better, and failure.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum PrimaryReselectPolicy {
     #[cfg_attr(feature = "serde", serde(rename = "always"))]
     Always,

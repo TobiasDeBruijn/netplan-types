@@ -10,6 +10,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct AuthConfig {
     /// The supported key management modes are none (no key management);
     /// psk (WPA with pre-shared key, common for home wifi); eap (WPA
@@ -54,6 +55,7 @@ pub struct AuthConfig {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum AuthMethod {
     #[cfg_attr(feature = "serde", serde(rename = "tls"))]
     Tls,
@@ -65,6 +67,7 @@ pub enum AuthMethod {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum KeyManagmentMode {
     #[cfg_attr(feature = "serde", serde(rename = "none"))]
     None,

@@ -12,6 +12,7 @@ use crate::{CommonPropertiesAllDevices, CommonPropertiesPhysicalDeviceType};
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct ModemConfig {
     /// Set the carrier APN (Access Point Name). This can be omitted if
     /// auto-config is enabled.

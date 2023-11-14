@@ -14,6 +14,7 @@
 //! ## Features
 //! - `serde`: \[Default\] Add serde support
 //! - `derive_builder` Enable the derive_builder crate for an automatically generated builder pattern API
+//! - `schemars`: Enable the schemars crate for generating a JSON schema from the structs
 
 #[cfg(feature = "serde")]
 mod bool;
@@ -33,6 +34,7 @@ use derive_builder::Builder;
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct NetplanConfig {
     pub network: NetworkConfig,
 }
@@ -41,6 +43,7 @@ pub struct NetplanConfig {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct NetworkConfig {
     pub version: u8,
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -74,6 +77,7 @@ pub struct NetworkConfig {
 /// set up a hardware VLAN filter for it. There can be only one defined per VF.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum Renderer {
     #[cfg_attr(feature = "serde", serde(rename = "networkd"))]
     Networkd,
@@ -94,6 +98,7 @@ pub enum Renderer {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(untagged))]
 #[cfg_attr(feature = "serde", serde(rename = "lowercase"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum UseDomains {
     Boolean(
         #[cfg_attr(

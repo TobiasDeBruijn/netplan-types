@@ -46,6 +46,7 @@ use crate::{
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "derive_builder", derive(Builder))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct CommonPropertiesAllDevices {
     /// Use the given networking backend for this definition. Currently supported are
     /// networkd and NetworkManager. This property can be specified globally
@@ -248,6 +249,7 @@ pub struct CommonPropertiesAllDevices {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename = "lowercase"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum ActivationMode {
     Manual,
     Off,
