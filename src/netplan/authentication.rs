@@ -17,7 +17,7 @@ pub struct AuthConfig {
     /// with EAP, common for enterprise wifi); and 802.1x (used primarily
     /// for wired Ethernet connections).
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub key_managment: Option<KeyManagmentMode>,
+    pub key_management: Option<KeyManagmentMode>,
     /// The password string for EAP, or the pre-shared key for WPA-PSK.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub password: Option<String>,
@@ -75,6 +75,8 @@ pub enum KeyManagmentMode {
     Psk,
     #[cfg_attr(feature = "serde", serde(rename = "eap"))]
     Eap,
+    #[cfg_attr(feature = "serde", serde(rename = "sae"))]
+    Sae,
     /// 802.1x
     #[cfg_attr(feature = "serde", serde(rename = "802.1x"))]
     EightZeroTwoDotOneX,
