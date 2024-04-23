@@ -1,3 +1,6 @@
+## 0.5.0 (2024-04-23)
+- Fix typo in serialization of `key_management`
+- Add `Sae` auth type for WPA3-SAE support.
 
 ## 0.4.1 (2023-11-14)
 - Add `schemars` support
