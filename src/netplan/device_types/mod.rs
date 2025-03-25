@@ -248,7 +248,7 @@ pub struct CommonPropertiesAllDevices {
 /// Supported officially as of networkd v248+.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[cfg_attr(feature = "serde", serde(rename = "lowercase"))]
+#[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
 #[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum ActivationMode {
     Manual,
