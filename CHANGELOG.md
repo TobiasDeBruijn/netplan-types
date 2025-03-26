@@ -1,3 +1,6 @@
+# 0.5.1 (2025-03-26)
+- Fix (de)serialization of `ActivationMode`
+
 ## 0.5.0 (2024-04-23)
 - Fix typo in serialization of `key_management`
 - Add `Sae` auth type for WPA3-SAE support.
