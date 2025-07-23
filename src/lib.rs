@@ -51,6 +51,8 @@ pub struct NetworkConfig {
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub ethernets: Option<HashMap<String, EthernetConfig>>,
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub modems: Option<HashMap<String, ModemConfig>>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub wifis: Option<HashMap<String, WifiConfig>>,
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub bonds: Option<HashMap<String, BondConfig>>,

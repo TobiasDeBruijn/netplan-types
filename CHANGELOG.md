@@ -1,3 +1,7 @@
+# 0.6.0 (2025-07-23)
+- Add `modems` to `NetworkConfig`
+- Update dependencies
+
 # 0.5.1 (2025-03-26)
 - Fix (de)serialization of `ActivationMode`
 

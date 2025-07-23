@@ -1,6 +1,6 @@
 [package]
 name = "netplan-types"
-version = "0.5.1"
+version = "0.6.0"
 edition = "2021"
 authors = ["Tobias de Bruijn <t.debruijn@array21.dev>"]
 readme = "README.md"
@@ -15,8 +15,8 @@ default = ["serde"]
 builder = ["derive_builder"]
 
 [dependencies]
-derive_builder = { version = "^0.12", optional = true }
-schemars = { version = "0.8.15", optional = true }
+derive_builder = { version = "^0.20", optional = true }
+schemars = { version = "^1", optional = true }
 serde = { version = "^1.0", optional = true, features = ["derive"] }
 
 [dev-dependencies]

@@ -26,7 +26,6 @@ mod vrfs;
 pub use vrfs::*;
 
 mod nm_devices;
-pub use nm_devices::*;
 
 mod physical;
 pub use physical::*;
