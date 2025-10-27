@@ -130,15 +130,28 @@ pub enum Ipv6AddressGeneration {
 #[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum AddressMapping {
     Simple(String),
-    Complex {
-        /// Default: forever. This can be forever or 0 and corresponds
-        /// to the PreferredLifetime option in systemd-networkd’s Address
-        /// section. Currently supported on the networkd backend only.
-        lifetime: PreferredLifetime,
-        /// An IP address label, equivalent to the ip address label
-        /// command. Currently supported on the networkd backend only.
-        label: String,
-    },
+    Complex(std::collections::HashMap<String, AddressProperties>),
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
+pub struct AddressProperties {
+    /// An IP address label, equivalent to the ip address label
+    /// command. Currently supported on the networkd backend only.
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub label: Option<String>,
+    
+    /// Default: forever. This can be forever or 0 and corresponds
+    /// to the PreferredLifetime option in systemd-networkd's Address
+    /// section. Currently supported on the networkd backend only.
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub lifetime: Option<PreferredLifetime>,
+    
+    /// Preferred lifetime for the address
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub preferred_lifetime: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
