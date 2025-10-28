@@ -142,13 +142,13 @@ pub struct AddressProperties {
     /// command. Currently supported on the networkd backend only.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub label: Option<String>,
-    
+
     /// Default: forever. This can be forever or 0 and corresponds
     /// to the PreferredLifetime option in systemd-networkd's Address
     /// section. Currently supported on the networkd backend only.
     /// Since 0.100.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub lifetime: Option<String>,
+    pub lifetime: Option<PreferredLifetime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -288,7 +288,7 @@ use-ntp: "true"
     #[cfg(feature = "serde")]
     fn test_address_mapping_simple() {
         let simple = AddressMapping::Simple("192.168.1.10/24".to_string());
-        
+
         let yaml = serde_yaml::to_string(&simple).unwrap();
         assert_eq!(yaml.trim(), "192.168.1.10/24");
 
@@ -304,7 +304,7 @@ use-ntp: "true"
             "192.168.1.10/24".to_string(),
             AddressProperties {
                 label: Some("my-label".to_string()),
-                lifetime: Some("forever".to_string()),
+                lifetime: Some(PreferredLifetime::Forever),
             },
         );
         let complex = AddressMapping::Complex(map);
@@ -325,11 +325,11 @@ use-ntp: "true"
 "#;
 
         let mapping: AddressMapping = serde_yaml::from_str(yaml).unwrap();
-        
+
         if let AddressMapping::Complex(map) = mapping {
             let props = map.get("192.168.1.10/24").unwrap();
             assert_eq!(props.label, Some("my-label".to_string()));
-            assert_eq!(props.lifetime, Some("forever".to_string()));
+            assert_eq!(props.lifetime, Some(PreferredLifetime::Forever));
         } else {
             panic!("Expected Complex variant");
         }
@@ -352,7 +352,7 @@ lifetime: forever
 
         let props: AddressProperties = serde_yaml::from_str(yaml).unwrap();
         assert_eq!(props.label, Some("test".to_string()));
-        assert_eq!(props.lifetime, Some("forever".to_string()));
+        assert_eq!(props.lifetime, Some(PreferredLifetime::Forever));
     }
 
     #[test]
@@ -365,7 +365,7 @@ lifetime: "0"
 
         let props: AddressProperties = serde_yaml::from_str(yaml).unwrap();
         assert_eq!(props.label, Some("test".to_string()));
-        assert_eq!(props.lifetime, Some("0".to_string()));
+        assert_eq!(props.lifetime, Some(PreferredLifetime::Zero));
     }
 
     #[test]
@@ -436,7 +436,7 @@ use-domains: route
         if let AddressMapping::Complex(map) = &mappings[1] {
             let props = map.get("192.168.1.11/24").unwrap();
             assert_eq!(props.label, Some("backup".to_string()));
-            assert_eq!(props.lifetime, Some("0".to_string()));
+            assert_eq!(props.lifetime, Some(PreferredLifetime::Zero));
         } else {
             panic!("Expected Complex variant");
         }
@@ -474,11 +474,9 @@ route-metric: 65535
     fn test_empty_dhcp_overrides() {
         let yaml = "{}";
         let overrides: DhcpOverrides = serde_yaml::from_str(yaml).unwrap();
-        
+
         assert_eq!(overrides.use_dns, None);
         assert_eq!(overrides.use_ntp, None);
         assert_eq!(overrides.route_metric, None);
     }
 }
-
-
