@@ -1,3 +1,6 @@
+# 0.7.0 (2025-10-28)
+- Fix DHCP Address labels in complex format (https://github.com/TobiasDeBruijn/netplan-types/pull/7)
+
 # 0.6.0 (2025-07-23)
 - Add `modems` to `NetworkConfig`
 - Update dependencies

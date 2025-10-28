@@ -8,6 +8,7 @@ The intented use of this crate is to allow for easy editing of the network confi
 configuration files from a Rust program.
 
 Based on the documentation from netplan, which can be found [here](https://netplan.io/reference/)
+
 Please note that I do not check the docs often for updates, if anything is missing or incorrect in the future,
 please open an issue or a pull-request so the issue can be addressed.
 
