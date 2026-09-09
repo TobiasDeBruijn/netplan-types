@@ -111,7 +111,7 @@ pub struct DhcpOverrides {
     /// the effect of the Domains= setting when the argument is prefixed with
     /// “~”.
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub use_domains: Option<String>,
+    pub use_domains: Option<crate::UseDomains>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -164,6 +164,8 @@ pub enum PreferredLifetime {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(feature = "serde")]
+    use crate::UseDomains;
 
     #[test]
     fn test_dhcp_overrides_defaults() {
@@ -191,7 +193,7 @@ mod tests {
             hostname: Some("test-host".to_string()),
             use_routes: Some(false),
             route_metric: Some(100),
-            use_domains: Some("route".to_string()),
+            use_domains: Some(UseDomains::Route),
         };
 
         let yaml = serde_yaml::to_string(&overrides).unwrap();
@@ -230,7 +232,7 @@ use-domains: route
         assert_eq!(overrides.hostname, Some("test-host".to_string()));
         assert_eq!(overrides.use_routes, Some(false));
         assert_eq!(overrides.route_metric, Some(100));
-        assert_eq!(overrides.use_domains, Some("route".to_string()));
+        assert_eq!(overrides.use_domains, Some(UseDomains::Route));
     }
 
     #[test]
@@ -401,7 +403,18 @@ use-domains: true
 "#;
 
         let overrides: DhcpOverrides = serde_yaml::from_str(yaml).unwrap();
-        assert_eq!(overrides.use_domains, Some("true".to_string()));
+        assert_eq!(overrides.use_domains, Some(UseDomains::Boolean(true)));
+    }
+
+    #[test]
+    #[cfg(feature = "serde")]
+    fn test_use_domains_boolean_quoted() {
+        let yaml = r#"
+use-domains: "false"
+"#;
+
+        let overrides: DhcpOverrides = serde_yaml::from_str(yaml).unwrap();
+        assert_eq!(overrides.use_domains, Some(UseDomains::Boolean(false)));
     }
 
     #[test]
@@ -412,7 +425,30 @@ use-domains: route
 "#;
 
         let overrides: DhcpOverrides = serde_yaml::from_str(yaml).unwrap();
-        assert_eq!(overrides.use_domains, Some("route".to_string()));
+        assert_eq!(overrides.use_domains, Some(UseDomains::Route));
+    }
+
+    #[test]
+    #[cfg(feature = "serde")]
+    fn test_use_domains_serialize_roundtrip() {
+        let boolean = DhcpOverrides {
+            use_domains: Some(UseDomains::Boolean(true)),
+            ..Default::default()
+        };
+        let yaml = serde_yaml::to_string(&boolean).unwrap();
+        assert!(yaml.contains("use-domains: true"));
+        assert_eq!(
+            serde_yaml::from_str::<DhcpOverrides>(&yaml).unwrap(),
+            boolean
+        );
+
+        let route = DhcpOverrides {
+            use_domains: Some(UseDomains::Route),
+            ..Default::default()
+        };
+        let yaml = serde_yaml::to_string(&route).unwrap();
+        assert!(yaml.contains("use-domains: route"));
+        assert_eq!(serde_yaml::from_str::<DhcpOverrides>(&yaml).unwrap(), route);
     }
 
     #[test]

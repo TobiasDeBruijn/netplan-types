@@ -97,19 +97,80 @@ pub enum Renderer {
 /// the effect of the Domains= setting when the argument is prefixed with
 /// “~”.
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[cfg_attr(feature = "serde", serde(untagged))]
-#[cfg_attr(feature = "serde", serde(rename = "lowercase"))]
-#[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub enum UseDomains {
-    Boolean(
-        #[cfg_attr(
-            feature = "serde",
-            serde(deserialize_with = "crate::bool::string_or_bool")
-        )]
-        bool,
-    ),
+    Boolean(bool),
     Route,
+}
+
+#[cfg(feature = "serde")]
+impl Serialize for UseDomains {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            UseDomains::Boolean(b) => serializer.serialize_bool(*b),
+            UseDomains::Route => serializer.serialize_str("route"),
+        }
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<'de> Deserialize<'de> for UseDomains {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        struct UseDomainsVisitor;
+
+        impl serde::de::Visitor<'_> for UseDomainsVisitor {
+            type Value = UseDomains;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                formatter.write_str("a boolean, or the string \"route\"")
+            }
+
+            fn visit_bool<E>(self, v: bool) -> Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                Ok(UseDomains::Boolean(v))
+            }
+
+            fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                match v.to_lowercase().as_str() {
+                    "true" | "yes" | "on" | "y" => Ok(UseDomains::Boolean(true)),
+                    "false" | "no" | "off" | "n" => Ok(UseDomains::Boolean(false)),
+                    "route" => Ok(UseDomains::Route),
+                    _ => Err(serde::de::Error::unknown_variant(
+                        v,
+                        &["true", "false", "yes", "no", "on", "off", "y", "n", "route"],
+                    )),
+                }
+            }
+        }
+
+        deserializer.deserialize_any(UseDomainsVisitor)
+    }
+}
+
+#[cfg(feature = "schemars")]
+impl schemars::JsonSchema for UseDomains {
+    fn schema_name() -> std::borrow::Cow<'static, str> {
+        "UseDomains".into()
+    }
+
+    fn json_schema(_generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+        schemars::json_schema!({
+            "anyOf": [
+                { "type": "boolean" },
+                { "type": "string", "enum": ["route"] }
+            ]
+        })
+    }
 }
 
 #[cfg(test)]
