@@ -1,3 +1,6 @@
+# 0.8.0 (2026-09-18)
+- Fix: use-domains type mismatch with real netplan output (https://github.com/TobiasDeBruijn/netplan-types/pull/8)
+
 # 0.7.0 (2025-10-28)
 - Fix DHCP Address labels in complex format (https://github.com/TobiasDeBruijn/netplan-types/pull/7)
 
